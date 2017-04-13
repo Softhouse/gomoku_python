@@ -69,7 +69,7 @@ class InitializeEvent(Event):
 
 class EventManager(object):
     """
-    We coordinate communication between the Model, View, and Controller.
+    Coordinates communication between the Model, View, and Controller.
     """
 
     def __init__(self):
@@ -77,15 +77,15 @@ class EventManager(object):
         self.listeners = WeakKeyDictionary()
 
     def RegisterListener(self, listener):
-        """ 
-        Adds a listener to our spam list. 
-        It will receive Post()ed events through it's notify(event) call. 
+        """
+        Adds a listener to our spam list.
+        It will receive Post()ed events through it's notify(event) call.
         """
 
         self.listeners[listener] = 1
 
     def UnregisterListener(self, listener):
-        """ 
+        """
         Remove a listener from our spam list.
         This is implemented but hardly used.
         Our weak ref spam list will auto remove any listeners who stop existing.
