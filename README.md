@@ -10,7 +10,7 @@ virtualenv is a tool to create isolated Python environments.
 virtualenv creates a folder which contains all the necessary  
 executables to use the packages that a Python project would need.  
 `$ pip install virtualenv`  
-`$ cd project_folder you cloend`  
+`$ cd project_folder you cloned`  
 `$ virtualenv my_project`  
 `$ source my_project/bin/activate`  
 
