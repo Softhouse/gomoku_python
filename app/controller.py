@@ -35,6 +35,7 @@ class Keyboard(object):
                         # else to see
                         self.evManager.Post(
                             KeyboardInputEvent(event.key))
+                # handle mouse click events
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button:
                         row, col = self.view.convert_mousepos(event.pos)

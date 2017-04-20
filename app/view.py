@@ -109,14 +109,14 @@ class GraphicalView(object):
         # draw the next player up
         player = BLACKTOKENIMG if self.model.get_next_player() == 'black' else REDTOKENIMG
         self.screen.blit(player, NEXTPLAYERRECT)
+
         # draw the winner
         winner_message = self.smallfont.render(
             'Winner is: ',
             True,
             (0, 255, 0))
         self.screen.blit(winner_message, WINNER_MESSAGE_RECT)
-        winner = self.model.get_winner()
-        if winner != ' ':
+        if self.model.get_winner() != ' ':
             winner = BLACKTOKENIMG if self.model.get_winner() == 'black' else REDTOKENIMG
             self.screen.blit(winner, WINNER_PLAYER_RECT)
 

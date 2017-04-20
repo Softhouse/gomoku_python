@@ -1,4 +1,5 @@
 import unittest
+from mock import MagicMock
 from app.eventmanager import EventManager
 from app.eventmanager import QuitEvent
 from app.eventmanager import MouseInputEvent
