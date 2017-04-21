@@ -94,9 +94,9 @@ class GraphicalView(object):
             for y in range(self.boardHeight):
                 spaceRect.topleft = (
                     self.x_margin + (x * SPACESIZE), self.y_margin + (y * SPACESIZE))
-                if self.model.get_piece(x, y) == 'black':
+                if self.model.get_piece(y, x) == 'black':
                     self.screen.blit(BLACKTOKENIMG, spaceRect)
-                elif self.model.get_piece(x, y) == 'red':
+                elif self.model.get_piece(y, x) == 'red':
                     self.screen.blit(REDTOKENIMG, spaceRect)
 
         # draw board over the tokens
@@ -125,8 +125,7 @@ class GraphicalView(object):
         tokenx, tokeny = pos
         row = int((tokenx - self.x_margin) / SPACESIZE)
         column = int((tokeny - self.y_margin) / SPACESIZE)
-        print(row, column)
-        return row, column
+        return column, row
 
     def initialize(self):
         """

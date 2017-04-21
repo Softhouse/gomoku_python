@@ -9,21 +9,18 @@ You will need to install [Python 2.7](https://www.python.org/downloads/release/p
 virtualenv is a tool to create isolated Python environments. 
 virtualenv creates a folder which contains all the necessary  
 executables to use the packages that a Python project would need.  
-`$ pip install virtualenv`  
-`$ cd project_folder you cloned`  
-`$ virtualenv my_project`  
-`$ source my_project/bin/activate`  
+`$ pip install virtualenv`
+`$ mkdir tdd_kurs; cd tdd_kurs`
+`$ git clone git@github.com:Softhouse/gomoku_python.git` 
+`$ virtualenv my_virtenv`  
+`$ source my_virtenv/bin/activate`  
 
 ### pygame
 Install [Pygame](http://pygame.org/) first to run this program  
 `(virt_env)$ pip install pygame`
 
-### Unittest framework
-Install the python nosetest framework.  
-`(virt_env)$ pip install nose`
-
 ## Running
-`(virt_env)$ python main.py` 
+`(virt_env)$ cd app; python main.py` 
 
 ## Test
-`(virt_env)$ nosetests example_unit_test.py`
+`(virt_env)$ python -m unittest test.test_gomoku`

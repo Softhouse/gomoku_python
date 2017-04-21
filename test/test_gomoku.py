@@ -17,6 +17,12 @@ class TddInPythonExample(unittest.TestCase):
         result = self.gamemodel.get_next_player()
         self.assertEqual('black', result)
 
+    def test_that_board_is_empty_at_start(self):
+        for col in range(7):
+            for row in range(6):
+                self.assertTrue(self.gamemodel.is_valid_move(row, col))
+                self.assertEqual(' ', self.gamemodel.get_piece(row, col))
+
     def test_that_game_has_no_winner_at_start(self):
         result = self.gamemodel.get_winner()
         self.assertEqual(' ', result)
@@ -26,7 +32,7 @@ class TddInPythonExample(unittest.TestCase):
         result = self.gamemodel.get_next_player()
         self.assertEqual('red', result)
 
-    def test_that_five_vertical_in_row_wins(self):
+    def test_that_five_horizontal_in_row_wins(self):
         winner_row = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4)]
         for i in range(5):
             self.evManager.Post(MouseInputEvent(winner_row[i]))
@@ -35,8 +41,26 @@ class TddInPythonExample(unittest.TestCase):
         result = self.gamemodel.get_winner()
         self.assertEqual('black', result)
 
-    def test_that_five_horizontal_in_row_wins(self):
+    def test_that_five_vertical_in_row_wins(self):
         winner_row = [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0)]
+        for i in range(5):
+            self.evManager.Post(MouseInputEvent(winner_row[i]))
+            self.evManager.Post(MouseInputEvent((0, i+1)))
+
+        result = self.gamemodel.get_winner()
+        self.assertEqual('black', result)
+
+    def test_that_five_diagonal_left_in_row_wins(self):
+        winner_row = [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4)]
+        for i in range(5):
+            self.evManager.Post(MouseInputEvent(winner_row[i]))
+            self.evManager.Post(MouseInputEvent((0, i+1)))
+
+        result = self.gamemodel.get_winner()
+        self.assertEqual('black', result)
+
+    def test_that_five_diagonal_right_in_row_wins(self):
+        winner_row = [(0, 6), (1, 5), (2, 4), (3, 3), (4, 2)]
         for i in range(5):
             self.evManager.Post(MouseInputEvent(winner_row[i]))
             self.evManager.Post(MouseInputEvent((0, i)))

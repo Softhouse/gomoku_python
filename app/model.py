@@ -38,7 +38,7 @@ class GameEngine(object):
     def _set_piece(self, pos):
         row, col = pos
         if self.winner == ' ' and self.is_valid_move(row, col):
-            self.grid[col][row] = 1 if self.player == 'black' else 2
+            self.grid[row][col] = 1 if self.player == 'black' else 2
             if self.is_winner(self.player):
                 self.winner = self.player
             else:
@@ -46,6 +46,7 @@ class GameEngine(object):
                 self._switch_player()
 
         # debug
+        print('    %s' % range(self.cols))
         for row in range(self.rows):
             print(row, self.grid[row])
 
@@ -53,13 +54,13 @@ class GameEngine(object):
         """
         ...
         """
-        return self.grid[col][row] == 0
+        return self.grid[row][col] == 0
 
     def get_piece(self, row, col):
         """
         ...
         """
-        occupant = self.grid[col][row]
+        occupant = self.grid[row][col]
         if occupant == 1:
             return 'black'
         if occupant == 2:
@@ -102,25 +103,25 @@ class GameEngine(object):
                     return True
 
         # check / diagonal spaces
-        for x in range(self.cols - 4):
-            for y in range(4, self.rows):
-                """print ('check / diagonal [%s,%s][%s,%s][%s,%s][%s,%s][%s,%s]' %(x, y, x+1, y-1, x+2, y-2, x+3, y-3, x+4, y-4))"""
-                if self.grid[x][y] == tile and \
-                   self.grid[x + 1][y - 1] == tile and \
-                   self.grid[x + 2][y - 2] == tile and \
-                   self.grid[x + 3][y - 3] == tile and \
-                   self.grid[x + 4][y - 4] == tile:
+        for row in range(self.rows - 4):
+            for col in range(4, self.cols):
+                """print ('check / diagonal [%s,%s][%s,%s][%s,%s][%s,%s][%s,%s]' %(row, col, row+1, col-1, row+2, col-2, row+3, col-3, row+4, col-4))"""
+                if self.grid[row][col] == tile and \
+                   self.grid[row + 1][col - 1] == tile and \
+                   self.grid[row + 2][col - 2] == tile and \
+                   self.grid[row + 3][col - 3] == tile and \
+                   self.grid[row + 4][col - 4] == tile:
                     return True
 
         # check \ diagonal spaces
-        for x in range(self.cols - 4):
-            for y in range(self.rows - 4):
-                """print ('check \ diagonal [%s,%s][%s,%s][%s,%s][%s,%s][%s,%s]' %(x, y, x+1, y+1, x+2, y+2, x+3, y+3, x+4, y+4))"""
-                if self.grid[x][y] == tile and \
-                   self.grid[x + 1][y + 1] == tile and \
-                   self.grid[x + 2][y + 2] == tile and \
-                   self.grid[x + 3][y + 3] == tile and \
-                   self.grid[x + 4][y + 4] == tile:
+        for row in range(self.rows - 4):
+            for col in range(self.cols - 4):
+                """print ('check \ diagonal [%s,%s][%s,%s][%s,%s][%s,%s][%s,%s]' %(row, col, row+1, col+1, row+2, col+2, row+3, col+3, row+4, col+4))"""
+                if self.grid[row][col] == tile and \
+                   self.grid[row + 1][col + 1] == tile and \
+                   self.grid[row + 2][col + 2] == tile and \
+                   self.grid[row + 3][col + 3] == tile and \
+                   self.grid[row + 4][col + 4] == tile:
                     return True
 
         return False

@@ -1,51 +1,33 @@
 import unittest
-from mock import MagicMock
+from mock import patch
 from app.eventmanager import EventManager
 from app.eventmanager import QuitEvent
 from app.eventmanager import MouseInputEvent
+from app.view import GraphicalView
 from app.model import GameEngine
+from app import *
 
 class TddInPythonExample(unittest.TestCase):
 
-    def setUp(self):
-        self.evManager = EventManager()
-        self.gamemodel = GameEngine(self.evManager, 7, 6)
+    @patch.object(GraphicalView, 'initialize')
+    # This is the same thing
+    # @patch('pyqueue.queue.Queue._get_queue')
+    def test_queue_initialization(self, initialize_view_mock):
+        """
+        Can use either path or patch.object as Queue object is
+        imported.
 
-    def tearDown(self):
-        self.evManager.Post(QuitEvent())
+         * To check that a method called only once:
+           `assert_called_once_with`
+         * To check the last call: `assert_called_with`
+         * To check that a particular call is done among other:
+           `assert_any_call`
 
-    def test_that_black_player_starts(self):
-        result = self.gamemodel.get_next_player()
-        self.assertEqual('black', result)
-
-    def test_that_game_has_no_winner_at_start(self):
-        result = self.gamemodel.get_winner()
-        self.assertEqual(' ', result)
-
-    def test_that_red_player_is_next(self):
-        self.evManager.Post(MouseInputEvent((1, 1)))
-        result = self.gamemodel.get_next_player()
-        self.assertEqual('red', result)
-
-    def test_that_five_vertical_in_row_wins(self):
-        winner_row = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4)]
-        for i in range(5):
-            self.evManager.Post(MouseInputEvent(winner_row[i]))
-            self.evManager.Post(MouseInputEvent((1, i)))
-
-        result = self.gamemodel.get_winner()
-        self.assertEqual('black', result)
-
-    def test_that_five_horizontal_in_row_wins(self):
-        winner_row = [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0)]
-        for i in range(5):
-            self.evManager.Post(MouseInputEvent(winner_row[i]))
-            self.evManager.Post(MouseInputEvent((0, i)))
-
-        result = self.gamemodel.get_winner()
-        self.assertEqual('black', result)
-
-
+        """
+        evManager = EventManager()
+        gamemodel = GameEngine(evManager, 7, 6)
+        view = GraphicalView(evManager, gamemodel, 7, 6)
+        initialize_view_mock.assert_any_call()
 
 if __name__ == '__main__':
     unittest.main()
