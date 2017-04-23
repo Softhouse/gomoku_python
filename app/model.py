@@ -1,4 +1,3 @@
-import pygame
 from eventmanager import *
 
 
@@ -54,7 +53,11 @@ class GameEngine(object):
         """
         ...
         """
-        return self.grid[row][col] == 0
+        try:
+            result = self.grid[row][col] == 0
+        except IndexError:
+            result = False
+        return result
 
     def get_piece(self, row, col):
         """
