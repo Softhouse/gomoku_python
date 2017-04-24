@@ -4,8 +4,8 @@ from app.eventmanager import QuitEvent
 from app.eventmanager import MouseInputEvent
 from app.model import GameEngine
 
-class TddInPythonExample(unittest.TestCase):
 
+class TddInPythonExample(unittest.TestCase):
     def setUp(self):
         self.evManager = EventManager()
         self.gamemodel = GameEngine(self.evManager, 7, 6)
@@ -45,7 +45,7 @@ class TddInPythonExample(unittest.TestCase):
         winner_row = [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0)]
         for i in range(5):
             self.evManager.Post(MouseInputEvent(winner_row[i]))
-            self.evManager.Post(MouseInputEvent((0, i+1)))
+            self.evManager.Post(MouseInputEvent((0, i + 1)))
 
         result = self.gamemodel.get_winner()
         self.assertEqual('black', result)
@@ -54,7 +54,7 @@ class TddInPythonExample(unittest.TestCase):
         winner_row = [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4)]
         for i in range(5):
             self.evManager.Post(MouseInputEvent(winner_row[i]))
-            self.evManager.Post(MouseInputEvent((0, i+1)))
+            self.evManager.Post(MouseInputEvent((0, i + 1)))
 
         result = self.gamemodel.get_winner()
         self.assertEqual('black', result)
@@ -68,6 +68,12 @@ class TddInPythonExample(unittest.TestCase):
         result = self.gamemodel.get_winner()
         self.assertEqual('black', result)
 
+    def test_clicking_outside_grid_does_not_crash_game(self):
+        click_positions = ((1, 1), (2, 3), (9, 7))
+        for pos in click_positions:
+            self.evManager.Post(MouseInputEvent(pos))
+        result = self.gamemodel.get_winner()
+        self.assertEqual(' ', result)
 
 
 if __name__ == '__main__':
