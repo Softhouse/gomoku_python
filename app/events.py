@@ -41,6 +41,7 @@ class KeyboardInputEvent(Event):
     def __str__(self):
         return '%s, char=%s' % (self.name, self.char)
 
+
 class MouseInputEvent(Event):
     """
     Keyboard or mouse input event.
@@ -101,7 +102,6 @@ class EventManager(object):
         """
 
         if not isinstance(event, TickEvent):
-            # print the event (unless it is TickEvent)
             print(str(event))
         for listener in self.listeners.keys():
             listener.notify(event)
