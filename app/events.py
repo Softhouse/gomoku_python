@@ -82,7 +82,6 @@ class EventManager(object):
         Adds a listener to our spam list.
         It will receive Post()ed events through it's notify(event) call.
         """
-
         self.listeners[listener] = 1
 
     def UnregisterListener(self, listener):
@@ -91,7 +90,6 @@ class EventManager(object):
         This is implemented but hardly used.
         Our weak ref spam list will auto remove any listeners who stop existing.
         """
-
         if listener in self.listeners.keys():
             del self.listeners[listener]
 
@@ -100,8 +98,5 @@ class EventManager(object):
         Post a new event to the message queue.
         It will be broadcast to all listeners.
         """
-
-        if not isinstance(event, TickEvent):
-            print(str(event))
         for listener in self.listeners.keys():
             listener.notify(event)
