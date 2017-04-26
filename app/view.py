@@ -1,6 +1,6 @@
 import pygame
 import model
-from eventmanager import *
+from events import *
 
 BRIGHTBLUE = (0, 50, 255)
 WHITE = (255, 255, 255)
@@ -11,22 +11,23 @@ WINDOWWIDTH = 640  # width of the program's window, in pixels
 WINDOWHEIGHT = 480  # height in pixels
 SPACESIZE = 50  # size of the tokens and individual board spaces in pixels
 
-REDTOKENIMG = pygame.image.load('4row_red.png')
+REDTOKENIMG = pygame.image.load('images/4row_red.png')
 REDTOKENIMG = pygame.transform.smoothscale(REDTOKENIMG, (SPACESIZE, SPACESIZE))
-BLACKTOKENIMG = pygame.image.load('4row_black.png')
+BLACKTOKENIMG = pygame.image.load('images/4row_black.png')
 BLACKTOKENIMG = pygame.transform.smoothscale(
     BLACKTOKENIMG, (SPACESIZE, SPACESIZE))
-BOARDIMG = pygame.image.load('4row_board.png')
+BOARDIMG = pygame.image.load('images/4row_board.png')
 BOARDIMG = pygame.transform.smoothscale(BOARDIMG, (SPACESIZE, SPACESIZE))
 NEXTPLAYERRECT = pygame.Rect(WINDOWWIDTH - int(3 * SPACESIZE / 2),
                              WINDOWHEIGHT - int(3 * SPACESIZE / 2), SPACESIZE, SPACESIZE)
-#WINNERPLAYERRECT = pygame.Rect(int(SPACESIZE / 2), WINDOWHEIGHT - int(3 * SPACESIZE / 2), SPACESIZE, SPACESIZE)
 WINNER_PLAYER_RECT = pygame.Rect(
-    int(SPACESIZE * 7/2), WINDOWHEIGHT - int(3 * SPACESIZE / 2), SPACESIZE, SPACESIZE)
+    int(SPACESIZE * 7 / 2), WINDOWHEIGHT - int(3 * SPACESIZE / 2), SPACESIZE, SPACESIZE)
 WINNER_MESSAGE_RECT = pygame.Rect(
     int(SPACESIZE / 2), WINDOWHEIGHT - int(3 * SPACESIZE / 3), SPACESIZE, SPACESIZE)
-FRAMERATE = 30 # limit the redraw speed to 30 frames per second
+FRAMERATE = 30  # limit the redraw speed to 30 frames per second
 
+TOKEN_RED = model.PLAYER_RED
+TOKEN_BLACK = model.PLAYER_BLACK
 
 class GraphicalView(object):
     """
@@ -37,12 +38,6 @@ class GraphicalView(object):
         """
         evManager (EventManager): Allows posting messages to the event queue.
         model (GameEngine): a strong reference to the game Model.
-
-        Attributes:
-        isinitialized (bool): pygame is ready to draw.
-        screen (pygame.Surface): the screen surface.
-        clock (pygame.time.Clock): keeps the fps constant.
-        smallfont (pygame.Font): a small font.
         """
 
         self.evManager = evManager
@@ -94,9 +89,9 @@ class GraphicalView(object):
             for y in range(self.boardHeight):
                 spaceRect.topleft = (
                     self.x_margin + (x * SPACESIZE), self.y_margin + (y * SPACESIZE))
-                if self.model.get_piece(y, x) == 'black':
+                if self.model.get_piece(y, x) == TOKEN_BLACK:
                     self.screen.blit(BLACKTOKENIMG, spaceRect)
-                elif self.model.get_piece(y, x) == 'red':
+                elif self.model.get_piece(y, x) == TOKEN_RED:
                     self.screen.blit(REDTOKENIMG, spaceRect)
 
         # draw board over the tokens
@@ -107,7 +102,7 @@ class GraphicalView(object):
                 self.screen.blit(BOARDIMG, spaceRect)
 
         # draw the next player up
-        player = BLACKTOKENIMG if self.model.get_next_player() == 'black' else REDTOKENIMG
+        player = BLACKTOKENIMG if self.model.get_next_player() == TOKEN_BLACK else REDTOKENIMG
         self.screen.blit(player, NEXTPLAYERRECT)
 
         # draw the winner
@@ -117,7 +112,7 @@ class GraphicalView(object):
             (0, 255, 0))
         self.screen.blit(winner_message, WINNER_MESSAGE_RECT)
         if self.model.get_winner() != ' ':
-            winner = BLACKTOKENIMG if self.model.get_winner() == 'black' else REDTOKENIMG
+            winner = BLACKTOKENIMG if self.model.get_winner() == TOKEN_BLACK else REDTOKENIMG
             self.screen.blit(winner, WINNER_PLAYER_RECT)
 
     def convert_mousepos(self, pos):

@@ -1,8 +1,9 @@
 import pygame
-from eventmanager import *
+
+from events import *
 
 
-class Keyboard(object):
+class UserInput(object):
     """
     Handles keyboard and mouse input.
     """
@@ -33,11 +34,8 @@ class Keyboard(object):
                     else:
                         # post any other keys to the message queue for everyone
                         # else to see
-                        self.evManager.Post(
-                            KeyboardInputEvent(event.key))
-                # handle mouse click events
+                        self.evManager.Post(KeyboardInputEvent(event.key))
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button:
                         row, col = self.view.convert_mousepos(event.pos)
                         self.evManager.Post(MouseInputEvent((row, col)))
-
