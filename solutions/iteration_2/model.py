@@ -12,6 +12,7 @@ PLAYER_RED = 'red'
 class GameEngine(object):
     """
     Tracks the game state.
+    (solutions/iteration_2)
     """
 
     def __init__(self, evManager, cols, rows):

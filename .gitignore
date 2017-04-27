@@ -1,7 +1,13 @@
 __pycache__/
 *.pyc
+
 # Various IDE's
 .vscode/
 .idea/
+
 # Virtual environment
 my_virtenv/
+
+# Code coverage tool
+.coverage
+htmlcov/
