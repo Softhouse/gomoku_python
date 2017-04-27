@@ -1,5 +1,12 @@
 import unittest
 
+from app.model import UNKNOWN
+from app.events import EventManager
+from app.events import QuitEvent
+from app.model import GameEngine
+
+ROW_COUNT = 6
+COL_COUNT = 7
 
 class TestGame(unittest.TestCase):
     """
@@ -9,14 +16,16 @@ class TestGame(unittest.TestCase):
     """
 
     def setUp(self):
-        pass
+        self.evManager = EventManager()
+        self.game = GameEngine(self.evManager, COL_COUNT, ROW_COUNT)
 
     def tearDown(self):
-        pass
+        self.evManager.Post(QuitEvent())
 
-    def test_that_fails(self):
-        """This test should fail"""
-        self.assertEqual("fia med knuff", "gomoku", msg="names must be equal")
+    def test_that_board_is_empty_at_start(self):
+        for col in range(COL_COUNT):
+            for row in range(ROW_COUNT):
+                self.assertEqual(UNKNOWN, self.game.get_piece(row, col))
 
 
 if __name__ == '__main__':
