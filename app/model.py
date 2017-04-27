@@ -52,7 +52,7 @@ class GameEngine(object):
         """
         Return piece in row, col of board. Enables View to find out what to draw on GUI
         """
-        return UNKNOWN
+        pass
 
     def get_winner(self):
         """Return winner of the game, enables View to declare winner and take appropriate action"""
