@@ -23,7 +23,7 @@ virtualenv creates a folder which contains all the necessary executables to use 
 
 ### Start virtualenv
 
-    $ source my_virtenv/bin/activate  
+    $ source my_virtenv/bin/activate
 
 ### Install pygame
 Install [Pygame](http://pygame.org/) first to run this program  

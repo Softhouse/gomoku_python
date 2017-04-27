@@ -16,12 +16,6 @@ class GameEngine(object):
     """
 
     def __init__(self, evManager, cols, rows):
-        """
-        evManager (EventManager): Allows posting messages to the event queue.
-
-        Attributes:
-        running (bool): True while the engine is online. Changed via QuitEvent().
-        """
         self.cols = cols
         self.rows = rows
         self.grid = [[0 for x in range(cols)] for y in range(rows)]

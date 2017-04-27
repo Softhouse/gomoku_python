@@ -12,16 +12,10 @@ PLAYER_RED = 'red'
 class GameEngine(object):
     """
     Tracks the game state.
-    (solutions/beginning)
+    (solutions/iteration_1)
     """
 
     def __init__(self, evManager, cols, rows):
-        """
-        evManager (EventManager): Allows posting messages to the event queue.
-
-        Attributes:
-        running (bool): True while the engine is online. Changed via QuitEvent().
-        """
         self.cols = cols
         self.rows = rows
         self.grid = [[0 for x in range(cols)] for y in range(rows)]
@@ -33,7 +27,7 @@ class GameEngine(object):
 
     def _switch_player(self):
         """Switch to other player"""
-        pass
+        self.player = PLAYER_RED if self.player == PLAYER_BLACK else PLAYER_BLACK
 
     def get_next_player(self):
         return self.player
@@ -45,33 +39,43 @@ class GameEngine(object):
         3. Declare a winner?
         4. Switch to next player
         """
-        pass
+        row, col = pos
+        if self.is_valid_move(row, col):
+            self.grid[row][col] = CELL_BLACK if self.player == PLAYER_BLACK else CELL_RED
+            self._switch_player()
 
     def is_valid_move(self, row, col):
         """
         Return True if it is valid to move to cell row, col. You cannot move to an occupied cell
         on grid or to a cell outside grid.
         """
-        return False
+        return self.grid[row][col] == CELL_EMPTY
 
     def get_piece(self, row, col):
         """
         Return piece in row, col of board. Enables View to find out what to draw on GUI
         """
-        return UNKNOWN
+        cell = self.grid[row][col]
+        if cell == CELL_BLACK:
+            return PLAYER_BLACK
+        if cell == CELL_RED:
+            return PLAYER_RED
+        else:
+            return UNKNOWN
 
     def get_winner(self):
-        """Return winner of the game, enables View to declare winner and take appropriate action"""
-        return UNKNOWN
+        """Return winner of the game, enables View to declare winner and take appropriate action
+        """
+        return self.winner
 
     def is_winner(self, player):
         """Calculate if there is a winner or not. Check both colors and all combinations to determine this
-        Return True iff there is a winner, else False"""
+        Return True iff there is a winner, else False
+        """
         return False
 
     def notify(self, event):
         """
-        Receive a notification.
         Called by an event in the message queue.
         """
 
