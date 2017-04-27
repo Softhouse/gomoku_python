@@ -22,8 +22,6 @@ class GameEngine(object):
         Attributes:
         running (bool): True while the engine is online. Changed via QuitEvent().
         """
-        # Create a cols by row grid
-        # 0 = ' ', 1 = black, 2 = red
         self.cols = cols
         self.rows = rows
         self.grid = [[0 for x in range(cols)] for y in range(rows)]
@@ -35,64 +33,45 @@ class GameEngine(object):
 
     def _switch_player(self):
         """Switch to other player"""
-        self.player = PLAYER_RED if self.player == PLAYER_BLACK else PLAYER_BLACK
+        pass
 
     def get_next_player(self):
         return self.player
 
     def _play_turn(self, pos):
-        """Play one turn of the game"""
-        row, col = pos
-        if self.winner == UNKNOWN and self.is_valid_move(row, col):
-            self.grid[row][col] = CELL_BLACK if self.player == PLAYER_BLACK else CELL_RED
-            if self.is_winner(self.player):
-                self.winner = self.player
-            else:
-                self._switch_player()
+        """Play one turn of the game. Takes care of house-keeping like
+        1. Should game continue? (winner or exhaustion?)
+        2. Can we move to 'pos'?
+        3. Declare a winner?
+        4. Switch to next player
+        """
+        pass
 
     def is_valid_move(self, row, col):
         """
-        Return True if it is valid to move to position row, col
+        Return True if it is valid to move to cell row, col. You cannot move to an occupied cell
+        on grid or to a cell outside grid.
         """
-        try:
-            result = self.grid[row][col] == CELL_EMPTY
-        except IndexError:
-            result = False
-        return result
+        return False
 
     def get_piece(self, row, col):
         """
-        Return piece in row, col of board
+        Return piece in row, col of board. Enables View to find out what to draw on GUI
         """
-        occupant = self.grid[row][col]
-        if occupant == CELL_BLACK:
-            return PLAYER_BLACK
-        if occupant == CELL_RED:
-            return PLAYER_RED
-        else:
-            return UNKNOWN
+        return UNKNOWN
 
     def get_winner(self):
-         return self.winner
+        """Return winner of the game, enables View to declare winner and take appropriate action"""
+        return UNKNOWN
 
     def is_winner(self, player):
-        tile = CELL_BLACK if player == PLAYER_BLACK else CELL_RED
-
-        # check horizontal spaces
-        for row in range(self.rows):
-            for col in range(self.cols - 4):
-                """print ('check horizontal [%s,%s][%s,%s][%s,%s][%s,%s][%s,%s]' %(row, col, row, col+1, row, col+2, row, col+3, row, col+4))"""
-                if self.grid[row][col] == tile and \
-                   self.grid[row][col + 1] == tile and \
-                   self.grid[row][col + 2] == tile and \
-                   self.grid[row][col + 3] == tile and \
-                   self.grid[row][col + 4] == tile:
-                    return True
-
+        """Calculate if there is a winner or not. Check both colors and all combinations to determine this
+        Return True iff there is a winner, else False"""
         return False
 
     def notify(self, event):
         """
+        Receive a notification.
         Called by an event in the message queue.
         """
 

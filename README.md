@@ -1,5 +1,5 @@
 # gomoku_python
-An example application for experimenting with TDD and refactoring
+An example application for TDD and refactoring using the board game [Gomoku](https://en.wikipedia.org/wiki/Gomoku)
 
 ## Setup
 You will need to have [Python 2.7](https://www.python.org/downloads/release/python-2713/) installed
@@ -37,6 +37,8 @@ run the tests.
 ## Run tests
 
     (virt_env)$ python -m unittest test.test_model
+
+Read more on how to create Python [unittest](https://docs.python.org/2.7/library/unittest.html#module-unittest)s
 
 ## Run game
 

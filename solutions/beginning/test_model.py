@@ -1,26 +1,22 @@
 import unittest
 
-from app.model import PLAYER_RED, PLAYER_BLACK, UNKNOWN
-from app.events import EventManager
-from app.events import QuitEvent
-from app.model import GameEngine
-
 
 class TestGame(unittest.TestCase):
     """
     (solutions/beginning)
-    There should only be one failing test to show
-    structure of test
+    There should only be one failing test to show general structure of test
+    For help - see https://docs.python.org/2.7/library/unittest.html#module-unittest
     """
+
     def setUp(self):
-        self.evManager = EventManager()
-        self.game = GameEngine(self.evManager, 7, 6)
+        pass
 
     def tearDown(self):
-        self.evManager.Post(QuitEvent())
+        pass
 
-    def test_that_game_has_no_winner_at_start(self):
-        self.assertEqual(UNKNOWN, self.game.get_winner())
+    def test_that_fails(self):
+        """This test should fail"""
+        self.assertEqual("fia med knuff", "gomoku", msg="names must be equal")
 
 
 if __name__ == '__main__':
