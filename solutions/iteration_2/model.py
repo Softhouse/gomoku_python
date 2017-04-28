@@ -1,12 +1,8 @@
 from events import *
 
-CELL_EMPTY = 0
-CELL_BLACK = 1
-CELL_RED = 2
-
 UNKNOWN = ' '
-PLAYER_BLACK = 'black'
-PLAYER_RED = 'red'
+PLAYER_BLACK = 'b'
+PLAYER_RED = 'r'
 
 
 class GameEngine(object):
@@ -14,7 +10,6 @@ class GameEngine(object):
     Tracks the game state.
     (solutions/iteration_2)
     """
-
     def __init__(self, evManager, cols, rows):
         """
         evManager (EventManager): Allows posting messages to the event queue.
@@ -23,10 +18,9 @@ class GameEngine(object):
         running (bool): True while the engine is online. Changed via QuitEvent().
         """
         # Create a cols by row grid
-        # 0 = ' ', 1 = black, 2 = red
         self.cols = cols
         self.rows = rows
-        self.grid = [[0 for x in range(cols)] for y in range(rows)]
+        self.grid = [[UNKNOWN for x in range(cols)] for y in range(rows)]
         self.player = PLAYER_BLACK
         self.winner = UNKNOWN
         self.evManager = evManager
@@ -49,7 +43,7 @@ class GameEngine(object):
         """
         row, col = pos
         if self.winner == UNKNOWN and self.is_valid_move(row, col):
-            self.grid[row][col] = CELL_BLACK if self.player == PLAYER_BLACK else CELL_RED
+            self.grid[row][col] = PLAYER_BLACK if self.player == PLAYER_BLACK else PLAYER_RED
             if self.is_winner(self.player):
                 self.winner = self.player
             else:
@@ -68,7 +62,7 @@ class GameEngine(object):
         on grid or to a cell outside grid.
         """
         try:
-            result = self.grid[row][col] == CELL_EMPTY
+            result = self.grid[row][col] == UNKNOWN
         except IndexError:
             result = False
         return result
@@ -77,13 +71,7 @@ class GameEngine(object):
         """
         Return piece in row, col of board. Enables View to find out what to draw on GUI
         """
-        occupant = self.grid[row][col]
-        if occupant == CELL_BLACK:
-            return PLAYER_BLACK
-        if occupant == CELL_RED:
-            return PLAYER_RED
-        else:
-            return UNKNOWN
+        return self.grid[row][col]
 
     def get_winner(self):
         """Return winner of the game, enables View to declare winner and take appropriate action"""
@@ -92,7 +80,7 @@ class GameEngine(object):
     def is_winner(self, player):
         """Calculate if there is a winner or not. Check both colors and all combinations to determine this
         Return True iff there is a winner, else False"""
-        tile = CELL_BLACK if player == PLAYER_BLACK else CELL_RED
+        tile = player
 
         # check horizontal spaces
         for row in range(self.rows):
