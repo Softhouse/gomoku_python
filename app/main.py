@@ -3,11 +3,14 @@ import events
 import model
 import view
 
+HEIGHT = 6
+WIDTH = 7
+
 
 def run():
     evManager = events.EventManager()
-    gamemodel = model.GameEngine(evManager, 7, 6)
-    graphics = view.GraphicalView(evManager, gamemodel, 7, 6)
+    gamemodel = model.GameEngine(evManager, HEIGHT, WIDTH)
+    graphics = view.GraphicalView(evManager, gamemodel, HEIGHT, WIDTH)
     keyboard = controller.UserInput(evManager, graphics)
     gamemodel.run()
 

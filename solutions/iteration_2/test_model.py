@@ -6,8 +6,8 @@ from app.events import QuitEvent
 from app.model import GameEngine
 from app.model import PLAYER_RED, PLAYER_BLACK, UNKNOWN
 
-ROW_COUNT = 6
-COL_COUNT = 7
+HEIGHT = 6
+WIDTH = 7
 
 
 class TestGame(unittest.TestCase):
@@ -20,15 +20,15 @@ class TestGame(unittest.TestCase):
 
     def setUp(self):
         self.evManager = EventManager()
-        self.game = GameEngine(self.evManager, COL_COUNT, ROW_COUNT)
+        self.game = GameEngine(self.evManager, HEIGHT, WIDTH)
 
     def tearDown(self):
         self.evManager.Post(QuitEvent())
 
     def test_that_board_is_empty_at_start(self):
         """1. An empty board should be shown when new games starts"""
-        for col in range(COL_COUNT):
-            for row in range(ROW_COUNT):
+        for col in range(WIDTH):
+            for row in range(HEIGHT):
                 self.assertTrue(self.game.is_valid_move(row, col))
                 self.assertEqual(UNKNOWN, self.game.get_piece(row, col))
 
@@ -78,7 +78,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(PLAYER_BLACK, self.game.get_winner())
 
     def test_clicking_outside_grid_does_not_crash_game(self):
-        click_positions = ((1, 1), (2, 3), (ROW_COUNT + 3, COL_COUNT))
+        click_positions = ((1, 1), (2, 3), (HEIGHT + 3, WIDTH))
         for pos in click_positions:
             self.evManager.Post(MouseInputEvent(pos))
         self.assertEqual(UNKNOWN, self.game.get_winner())

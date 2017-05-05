@@ -21,12 +21,17 @@ virtualenv creates a folder which contains all the necessary executables to use 
     $ git clone git@github.com:Softhouse/gomoku_python.git 
     $ virtualenv my_virtenv
 
-### Start virtualenv
+### Running virtualenv
+Start `virtualenv` so all dependencies are installed inside it
 
     $ source my_virtenv/bin/activate
+    
+After the lab you can quit the virtual environment by
 
+    $ deactivate
+    
 ### Install pygame
-Install [Pygame](http://pygame.org/) first to run this program  
+With `virtualenv` running, install [Pygame](http://pygame.org/)   
 
     (virt_env)$ pip install pygame
 
@@ -46,10 +51,11 @@ Run the game through its GUI
 
     (virt_env)$ cd app; python main.py
 
-## Exit virtualenv
-To quit the virtual environment in your shell
+## Lab
+When you write code that accesses a token or cell, the order is first **row** then **column** throughout the code,
+for example:
 
-    $ deactivate
+    row, col = pos
 
 ## Code coverage
 If you like you can measure [Code coverage](https://en.wikipedia.org/wiki/Code_coverage) to see how much of 

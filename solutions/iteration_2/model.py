@@ -10,17 +10,12 @@ class GameEngine(object):
     Tracks the game state.
     (solutions/iteration_2)
     """
-    def __init__(self, evManager, cols, rows):
-        """
-        evManager (EventManager): Allows posting messages to the event queue.
 
-        Attributes:
-        running (bool): True while the engine is online. Changed via QuitEvent().
-        """
-        # Create a cols by row grid
-        self.cols = cols
-        self.rows = rows
-        self.grid = [[UNKNOWN for x in range(cols)] for y in range(rows)]
+    def __init__(self, evManager, height, width):
+        # Create a grid of given height (nr of rows) and width (nr of columns)
+        self.width = width
+        self.height = height
+        self.grid = [[UNKNOWN for x in range(width)] for y in range(height)]
         self.player = PLAYER_BLACK
         self.winner = UNKNOWN
         self.evManager = evManager
@@ -52,8 +47,8 @@ class GameEngine(object):
 
     def _debug_grid(self):
         """For debug purposes"""
-        print('    %s' % range(self.cols))
-        for row in range(self.rows):
+        print('    %s' % range(self.width))
+        for row in range(self.height):
             print(row, self.grid[row])
 
     def is_valid_move(self, row, col):
@@ -83,8 +78,8 @@ class GameEngine(object):
         tile = player
 
         # check horizontal spaces
-        for row in range(self.rows):
-            for col in range(self.cols - 4):
+        for row in range(self.height):
+            for col in range(self.width - 4):
                 """print ('check horizontal [%s,%s][%s,%s][%s,%s][%s,%s][%s,%s]' %(row, col, row, col+1, row, col+2, row, col+3, row, col+4))"""
                 if self.grid[row][col] == tile and \
                                 self.grid[row][col + 1] == tile and \
@@ -94,8 +89,8 @@ class GameEngine(object):
                     return True
 
         # check vertical spaces
-        for col in range(self.cols):
-            for row in range(self.rows - 4):
+        for col in range(self.width):
+            for row in range(self.height - 4):
                 """print ('check vertical [%s,%s][%s,%s][%s,%s][%s,%s][%s,%s]' %(row, col, row+1, col, row+2, col, row+3, col, row+4, col))"""
                 if self.grid[row][col] == tile and \
                                 self.grid[row + 1][col] == tile and \
@@ -105,8 +100,8 @@ class GameEngine(object):
                     return True
 
         # check / diagonal spaces
-        for row in range(self.rows - 4):
-            for col in range(4, self.cols):
+        for row in range(self.height - 4):
+            for col in range(4, self.width):
                 """print ('check / diagonal [%s,%s][%s,%s][%s,%s][%s,%s][%s,%s]' %(row, col, row+1, col-1, row+2, col-2, row+3, col-3, row+4, col-4))"""
                 if self.grid[row][col] == tile and \
                                 self.grid[row + 1][col - 1] == tile and \
@@ -116,8 +111,8 @@ class GameEngine(object):
                     return True
 
         # check \ diagonal spaces
-        for row in range(self.rows - 4):
-            for col in range(self.cols - 4):
+        for row in range(self.height - 4):
+            for col in range(self.width - 4):
                 """print ('check \ diagonal [%s,%s][%s,%s][%s,%s][%s,%s][%s,%s]' %(row, col, row+1, col+1, row+2, col+2, row+3, col+3, row+4, col+4))"""
                 if self.grid[row][col] == tile and \
                                 self.grid[row + 1][col + 1] == tile and \
