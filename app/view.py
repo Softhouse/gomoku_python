@@ -34,7 +34,7 @@ class GraphicalView(object):
     Draws the model state onto the screen.
     """
 
-    def __init__(self, evManager, model, cols, rows):
+    def __init__(self, evManager, model, height, width):
         """
         evManager (EventManager): Allows posting messages to the event queue.
         model (GameEngine): a strong reference to the game Model.
@@ -47,10 +47,10 @@ class GraphicalView(object):
         self.screen = None
         self.clock = None
         self.smallfont = None
-        self.boardWidth = cols
-        self.boardHeight = rows
-        self.x_margin = int((WINDOWWIDTH - cols * SPACESIZE) / 2)
-        self.y_margin = int((WINDOWHEIGHT - rows * SPACESIZE) / 2)
+        self.boardWidth = width
+        self.boardHeight = height
+        self.x_margin = int((WINDOWWIDTH - width * SPACESIZE) / 2)
+        self.y_margin = int((WINDOWHEIGHT - height * SPACESIZE) / 2)
 
     def notify(self, event):
         """
@@ -116,11 +116,11 @@ class GraphicalView(object):
             self.screen.blit(winner, WINNER_PLAYER_RECT)
 
     def convert_mousepos(self, pos):
-        """ convert window (x, y) coords into game field (row, col) values. """
-        tokenx, tokeny = pos
-        row = int((tokenx - self.x_margin) / SPACESIZE)
-        column = int((tokeny - self.y_margin) / SPACESIZE)
-        return column, row
+        """ convert window (x, y) coordinates into game field (row, col) values. """
+        token_x, token_y = pos
+        column = int((token_x - self.x_margin) / SPACESIZE)
+        row = int((token_y - self.y_margin) / SPACESIZE)
+        return row, column
 
     def initialize(self):
         """

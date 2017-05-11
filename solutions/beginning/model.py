@@ -1,12 +1,8 @@
 from events import *
 
-CELL_EMPTY = 0
-CELL_BLACK = 1
-CELL_RED = 2
-
 UNKNOWN = ' '
-PLAYER_BLACK = 'black'
-PLAYER_RED = 'red'
+PLAYER_BLACK = 'b'
+PLAYER_RED = 'r'
 
 
 class GameEngine(object):
@@ -15,10 +11,11 @@ class GameEngine(object):
     (solutions/beginning)
     """
 
-    def __init__(self, evManager, cols, rows):
-        self.cols = cols
-        self.rows = rows
-        self.grid = [[0 for x in range(cols)] for y in range(rows)]
+    def __init__(self, evManager, height, width):
+        # Create a grid of given height (nr of rows) and width (nr of columns)
+        self.width = width
+        self.height = height
+        self.grid = [[UNKNOWN for x in range(width)] for y in range(height)]
         self.player = PLAYER_BLACK
         self.winner = UNKNOWN
         self.evManager = evManager
@@ -52,13 +49,7 @@ class GameEngine(object):
         """
         Return piece in row, col of board. Enables View to find out what to draw on GUI
         """
-        cell = self.grid[row][col]
-        if cell == CELL_BLACK:
-            return PLAYER_BLACK
-        if cell == CELL_RED:
-            return PLAYER_RED
-        else:
-            return UNKNOWN
+        return self.grid[row][col]
 
     def get_winner(self):
         """Return winner of the game, enables View to declare winner and take appropriate action"""
